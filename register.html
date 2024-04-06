@@ -9,6 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
       rel="stylesheet"
     />
+    <script src="addAdminToLs.js"></script>
   </head>
   <body>
     <div class="login">
@@ -17,9 +18,12 @@
           <h1>SING-UP</h1>
           <p>Lorem ipsum dolor sit amet consectetur</p>
           <form id="registrationForm">
-            <input class="put" type="text" placeholder="Username" id="username" />
-            <input class="put" type="email" placeholder="Email" id="email" />
-            <input class="put" type="password" placeholder="Password"  id="password" />
+            <input class="put" type="text" placeholder="Username" id="username" required />
+            <input class="put" type="email" placeholder="Email" id="email" required />
+            <div class="check-pass">
+              <input class="put" type="password" placeholder="Password" id="password" required />
+              <input type="checkbox" id="showPassword">
+          </div>
             <button type="submit" name="submit" class="submit">SING-UP</button>
           </form>
           <p><a href="login.html">SING-IN</a></p>

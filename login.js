@@ -21,6 +21,8 @@ var loginForm = document.getElementById("loginForm");
                 }
             } else {
                 alert("Invalid email or password!");
+                document.getElementById("loginEmail").value = "";
+                document.getElementById("loginPassword").value = "";
             }
         });
     } else {
