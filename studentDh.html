@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="studentDb.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
   </head>
   <body>
     <nav>
@@ -21,10 +23,10 @@
             <ul>
               <li><a href="">accuil</a></li>
               <li><a href="">contact</a></li>
-              <div class="log-out">
-                <a href="#">
+              <div class="log-out" id="logoutBtn">
+
                   <img src="images/logout_icon_151219.png" alt="" />
-                </a>
+          
                 <!-- <li><a href="">log-out</a></li> -->
               </div>
             </ul>
@@ -33,7 +35,7 @@
       </div>
     </nav>
     <div class="container">
-        <h1>A Fancy Table</h1>
+        <h1>A Fancy Table </h1>
         <table id="customers">
           <tr>
             <th>Name</th>
@@ -42,71 +44,16 @@
             <th>Valid OR Not</th>
             <th>Action</th>
           </tr>
-          <tr>
-            <td>Oussama</td>
-            <td>13/3/2022</td>
-            <td>icon</td>
-            <td>Valid</td>
-            <td>1icons</td>
-          </tr>
-          <tr>
-            <td>Oussama</td>
-            <td>13/3/2022</td>
-            <td>icon</td>
-            <td>Valid</td>
-            <td>1icons</td>
-          </tr>
-          <tr>
-            <td>Oussama</td>
-            <td>13/3/2022</td>
-            <td>icon</td>
-            <td>Valid</td>
-            <td>1icons</td>
-          </tr>
-          <tr>
-            <td>Oussama</td>
-            <td>13/3/2022</td>
-            <td>icon</td>
-            <td>Valid</td>
-            <td>1icons</td>
-          </tr>
-          <tr>
-            <td>Oussama</td>
-            <td>13/3/2022</td>
-            <td>icon</td>
-            <td>Valid</td>
-            <td>1icons</td>
-          </tr>
-          <tr>
-            <td>Oussama</td>
-            <td>13/3/2022</td>
-            <td>icon</td>
-            <td>Valid</td>
-            <td>1icons</td>
-          </tr>
-          <tr>
-            <td>Oussama</td>
-            <td>13/3/2022</td>
-            <td>icon</td>
-            <td>Valid</td>
-            <td>1icons</td>
-          </tr>
-          <tr>
-            <td>Oussama</td>
-            <td>13/3/2022</td>
-            <td>icon</td>
-            <td>Valid</td>
-            <td>1icons</td>
-          </tr>
-          <tr>
-            <td>Oussama</td>
-            <td>13/3/2022</td>
-            <td>icon</td>
-            <td>Valid</td>
-            <td>1icons</td>
-          </tr>
         </table>
+        <div class="addModal-btn" id="addModal-btn">
+          <p>ADD  Blockers</p>
+          <div class="icon-btn">
+            <i class="fas fa-plus"></i>
+          </div>
+    
+        </div>
     </div>
+    
     <footer>
         <div class="container">
             <div class="items">
@@ -114,5 +61,46 @@
             </div>
         </div>
     </footer>
+    <div id="addModal" class="modal">
+      <div class="modal-content">
+        <button class="close">&times;</button>
+        <div class="modal-nav">
+          <div class="modal-logo">
+            <img src="images/logo.png" alt="">
+          </div>
+          <div class="student-name">
+            <h3>Oussama</h3>
+          </div>
+        </div>
+        <h3 class="title">Add</h3>
+        <div class="info">
+          <form id="dataForm">
+            <div>
+              <label>Formateur</label>
+              <input id="formateur" type="text">
+            </div>
+            <div>
+              <label>Bootcamp</label>
+              <input id="bootcamp" type="text">
+            </div>
+            <div>
+              <label>Title</label>
+              <input id="title" type="text">
+            </div>
+            <div>
+              <label>Brief</label>
+              <input id="brief" type="text">
+            </div>
+            <div>
+              <label>la difficulté</label>
+              <textarea  id="notes" cols="30" rows="5"></textarea>
+            </div>
+            <button type="submit">Add</button>
+          </form>
+        </div>
+        <!-- Your form elements for adding information go here -->
+      </div>
+    </div>
+    <script src="dashboard.js"></script>
   </body>
 </html>

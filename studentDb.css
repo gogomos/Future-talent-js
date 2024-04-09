@@ -104,4 +104,195 @@ nav .nav-elements .list ul .log-out img {
     font-size: 20px;
     text-align: center;
 }
+.ddk{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.valid-btn {
+    width: 80px;
+    height: 25px;
+    align-self: center;
+    background-color: rgba(21, 189, 21, 0.76);
+    padding-top: 6px;
+    border-radius: 20px;
+    color: green;
+}
+.update , .delete {
+    display: inline-block;
+    cursor: pointer;
+}
+i {
+    font-size: 20px;
+}
+.delete {
+    margin-left: 15px;
+}
+.addModal-btn {
+    width: 190px;
+    height: 55px;
+    cursor: pointer;
+    background-color: #9181F4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 30px;
+    border-radius: 20px;
+    
+}
+.addModal-btn p {
+    /* color:#735FF1 ; */
+    font-size: 18px;
+    font-weight: 800;
+}
+.icon-btn {
+    border: 4px solid black;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    align-content: center;
+    text-align: center;
+}
+/* Add modal */
 
+/* .modal-content {
+    width: 400px;
+    height: 500px;
+    background-color: white;
+    border: 2px solid black;
+}
+.modal-nav {
+    display: flex;
+    justify-items: center;
+    justify-content: space-between;
+    height: 80px;
+    background-color: #9181F4;
+    
+}
+.modal-logo {
+    width: 90px;
+    height: 90px;
+}
+.modal-logo img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+}
+.student-name {
+    width: 90px;
+    height: 90px;
+    padding-top: 12px;
+}
+.modal-content .title {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 800;
+}
+.info form label {
+    font-size: 20px;
+} */
+
+/* Modal Styling */
+.modal-content {
+    width: 380px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* max-height: 300px; */
+}
+
+.modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #624DE3;
+}
+
+.modal-logo img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.close {
+    font-size: 20px;
+    background-color: rgba(230, 60, 60, 0.644);
+    border-radius: 5px;
+    margin-bottom: 2px;
+}
+.student-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+.modal-content .title {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 800;
+}
+.info form {
+    display: flex;
+    flex-direction: column;
+}
+
+.info form div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.info form label {
+    font-size: 16px;
+    margin-bottom: 2px;
+    flex: 1;
+}
+
+.info form input[type="text"],
+.info form textarea {
+    flex: 2;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.info form textarea {
+    height: 100px;
+}
+
+.info form button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #9181F4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.info form button[type="submit"]:hover {
+    background-color: #624de3;
+}
+
+#addModal {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -52%);
+    z-index: 1000; /* Adjust the z-index as needed */
+}
+.body-overlay {
+    background-color: rgba(128, 128, 128, 0.5); /* Semi-transparent gray */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000; /* Ensure the overlay is above other content */
+  }
+  
