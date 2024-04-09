@@ -1,12 +1,16 @@
 var modal;
 var body;
+document.addEventListener("DOMContentLoaded", function() {
+  var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  var username = document.getElementById("name");
+  username.innerHTML = `<p>${currentUser.username}</p>`
+})
 document.addEventListener("DOMContentLoaded", function () {
   modal = document.getElementById("addModal");
   body = document.querySelector("body");
   var modalBtn = document.getElementById("addModal-btn");
 
   var closeBtn = document.querySelector("#addModal .close");
-
   modalBtn.addEventListener("click", function () {
     modal.style.display = "block";
     body.classList.add("body-overlay");
@@ -118,11 +122,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var table = document.getElementById("customers");
 
   // Retrieve data from local storage
-  var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
 
-  if (table && currentUser && currentUser.formData) {
+  if (table && savedUserData.length > 0) {
     // Function to create a table row
-    function createRow(data, index) {
+    function createRow(data, userDataIndex, formDataIndex) {
       var row = document.createElement("tr");
       row.innerHTML = `
         <td>${data.formateur}</td>
@@ -143,21 +147,23 @@ document.addEventListener("DOMContentLoaded", function () {
       // Add event listener to the delete icon in this row
       var deleteBtn = row.querySelector(".delete");
       deleteBtn.addEventListener("click", function (event) {
-        var rowIndex = index;
+        var userData = savedUserData[userDataIndex];
+        // Remove data from current user's formData array
+        userData.formData.splice(formDataIndex, 1);
+        // Update local storage with modified data
+        localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
         // Remove row from table
         row.remove();
-        // Remove data from local storage
-        currentUser.formData.splice(rowIndex, 1);
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        // location.reload();
       });
       return row;
     }
 
-    // Populate table with data from current user
-    currentUser.formData.forEach(function (formData, index) {
-      var row = createRow(formData, index);
-      table.appendChild(row);
+    // Populate table with data from savedUserData
+    savedUserData.forEach(function (userData, userDataIndex) {
+      userData.formData.forEach(function (formData, formDataIndex) {
+        var row = createRow(formData, userDataIndex, formDataIndex);
+        table.appendChild(row);
+      });
     });
   } else {
     console.error("Table or user data not found.");

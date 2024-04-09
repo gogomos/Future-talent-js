@@ -5,6 +5,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     margin-bottom: 0;
+    height: 2000px;
 }
 /* nav {
     background-color: #624DE3;
@@ -93,10 +94,12 @@ nav .nav-elements .list ul .log-out img {
   footer {
     background-color: black;
     height: 120px;
-    /* position: fixed; */
-    margin-top: 80px;
+    position: absolute;
+    /* margin-top: 80px; */
+    width: 100%;
     bottom: 0;
-    width: 100%; 
+    /* top: 0; */
+    /* width: 100%;  */
 
 }
 .items {
