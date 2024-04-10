@@ -101,6 +101,44 @@
         <!-- Your form elements for adding information go here -->
       </div>
     </div>
+    <div id="updateModal" class="modal">
+      <div class="modal-content">
+        <button class="close">&times;</button>
+        <div class="modal-nav">
+          <div class="modal-logo">
+            <img src="images/logo.png" alt="">
+          </div>
+          <div class="student-name">
+            <h3>Oussama</h3>
+          </div>
+        </div>
+        <h3 class="updateTitle">Update</h3>
+        <div class="info">
+          <form id="updateForm">
+            <div>
+              <label>Title</label>
+              <input id="update-title" type="text">
+            </div>
+            <div>
+              <label>Brief</label>
+              <input id="update-brief" type="text">
+            </div>
+            <div>
+              <label>la difficulté</label>
+              <textarea  id="update-notes" cols="30" rows="5"></textarea>
+            </div>
+            <button type="submit">Update</button>
+          </form>
+        </div>
+        <!-- Your form elements for adding information go here -->
+      </div>
+    </div>
+
+    <div class="blockageModal">
+      <button class="close">&times;</button>
+      <h1>your blockage is</h1>
+      <p></p>
+    </div>
     <script src="dashboard.js"></script>
   </body>
 </html>

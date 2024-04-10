@@ -1,10 +1,10 @@
 var modal;
 var body;
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   var currentUser = JSON.parse(localStorage.getItem("currentUser"));
   var username = document.getElementById("name");
-  username.innerHTML = `<p>${currentUser.username}</p>`
-})
+  username.innerHTML = `<p>${currentUser.username}</p>`;
+});
 document.addEventListener("DOMContentLoaded", function () {
   modal = document.getElementById("addModal");
   body = document.querySelector("body");
@@ -118,54 +118,264 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+// document.addEventListener("DOMContentLoaded", function () {
+//   var table = document.getElementById("customers");
+
+//   // Retrieve data from local storage
+//   var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
+
+//   if (table && savedUserData.length > 0) {
+//     // Function to create a table row
+//     function createRow(data, userDataIndex, formDataIndex) {
+//       var row = document.createElement("tr");
+//       row.innerHTML = `
+//         <td>${data.formateur}</td>
+//         <td>${data.date}</td>
+//         <td>
+//           <div>
+//             <i class="fas fa-eye" style="color: black;"></i> <!-- Eye icon -->
+//           </div>
+//         </td>
+//         <td class="ddk">
+//           <div class="valid-btn">Valid</div>
+//         </td>
+//         <td class="action">
+//           <div class="update" id="updateBtn"> <i class="fas fa-pencil-alt" style="color: blue;"></i></div>
+//           <div class="delete"><i class="fas fa-trash" style="color: red;"></i></div>
+//         </td>
+//       `;
+//       // Add event listener to the delete icon in this row
+//       var deleteBtn = row.querySelector(".delete");
+//       deleteBtn.addEventListener("click", function (event) {
+//         var userData = savedUserData[userDataIndex];
+//         // Remove data from current user's formData array
+//         userData.formData.splice(formDataIndex, 1);
+//         // Update local storage with modified data
+//         localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+//         // Remove row from table
+//         row.remove();
+//       });
+//       return row;
+//     }
+
+//     // Populate table with data from savedUserData
+//     savedUserData.forEach(function (userData, userDataIndex) {
+//       userData.formData.forEach(function (formData, formDataIndex) {
+//         var row = createRow(formData, userDataIndex, formDataIndex);
+//         table.appendChild(row);
+//       });
+//     });
+//   } else {
+//     console.error("Table or user data not found.");
+//   }
+// });
+
+//update
 document.addEventListener("DOMContentLoaded", function () {
   var table = document.getElementById("customers");
 
-  // Retrieve data from local storage
+  // Retrieve data from local storage for the current user
+  var currentUser = JSON.parse(localStorage.getItem("currentUser"));
   var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
 
-  if (table && savedUserData.length > 0) {
-    // Function to create a table row
-    function createRow(data, userDataIndex, formDataIndex) {
-      var row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${data.formateur}</td>
-        <td>${data.date}</td>
-        <td>
-          <div>
-            <i class="fas fa-eye" style="color: black;"></i> <!-- Eye icon -->
-          </div>
-        </td>
-        <td class="ddk">
-          <div class="valid-btn">Valid</div>
-        </td>
-        <td class="action">
-          <div class="update"> <i class="fas fa-pencil-alt" style="color: blue;"></i></div>
-          <div class="delete"><i class="fas fa-trash" style="color: red;"></i></div>
-        </td>
-      `;
-      // Add event listener to the delete icon in this row
-      var deleteBtn = row.querySelector(".delete");
-      deleteBtn.addEventListener("click", function (event) {
-        var userData = savedUserData[userDataIndex];
-        // Remove data from current user's formData array
-        userData.formData.splice(formDataIndex, 1);
-        // Update local storage with modified data
-        localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
-        // Remove row from table
-        row.remove();
-      });
-      return row;
-    }
+  if (table && currentUser) {
+    // Find the data of the current user
+    var userData = savedUserData.find(function (user) {
+      return user.username === currentUser.username; // Adjust this condition based on your user data structure
+    });
 
-    // Populate table with data from savedUserData
-    savedUserData.forEach(function (userData, userDataIndex) {
-      userData.formData.forEach(function (formData, formDataIndex) {
-        var row = createRow(formData, userDataIndex, formDataIndex);
+    if (userData && userData.formData) {
+      // Function to create a table row
+      function createRow(data, index) {
+        var row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${data.formateur}</td>
+          <td>${data.date}</td>
+          <td>
+            <div id="blockage">
+              <i class="fas fa-eye" style="color: black;"></i> <!-- Eye icon -->
+            </div>
+          </td>
+          <td class="ddk">
+            <div class="valid-btn">Valid</div>
+          </td>
+          <td class="action">
+            <div class="update" id="updateBtn"> <i class="fas fa-pencil-alt" style="color: blue;"></i></div>
+            <div class="delete"><i class="fas fa-trash" style="color: red;"></i></div>
+          </td>
+        `;
+        // Add event listener to the delete icon in this row
+        var deleteBtn = row.querySelector(".delete");
+        deleteBtn.addEventListener("click", function (event) {
+          // Remove data from current user's formData array
+          userData.formData.splice(index, 1);
+          // Update local storage with modified data
+          localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+          // Remove row from table
+          row.remove();
+        });
+        return row;
+      }
+
+      // Populate table with data from current user's formData
+      userData.formData.forEach(function (formData, index) {
+        var row = createRow(formData, index);
         table.appendChild(row);
       });
+    } else {
+      console.error("User data or formData not found for the current user.");
+    }
+  } else {
+    console.error("Table or current user data not found.");
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Define body and table variables
+  var body = document.querySelector("body");
+  var table = document.getElementById("customers");
+  var updateModal = document.getElementById("updateModal");
+  var updateModalBtn = document.getElementById("updateBtn");
+  if (updateModalBtn) {
+    updateModalBtn.addEventListener("click", function () {
+      updateModal.style.display = "block";
+      body.classList.add("body-overlay");
     });
   } else {
-    console.error("Table or user data not found.");
+    console.error("Update modal button not found.");
   }
+
+  // Update button event listener
+  var updateBtns = document.querySelectorAll(".update");
+  updateBtns.forEach(function (updateBtn) {
+    updateBtn.addEventListener("click", function () {
+      var rowIndex = this.closest("tr").rowIndex;
+      var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      var savedUserData =
+        JSON.parse(localStorage.getItem("savedUserData")) || [];
+
+      if (currentUser && savedUserData.length > 0) {
+        var userData = savedUserData.find(function (user) {
+          return user.username === currentUser.username;
+        });
+
+        if (
+          userData &&
+          userData.formData &&
+          userData.formData.length > rowIndex - 1
+        ) {
+          // console.log(rowIndex);
+          var updateModal = document.getElementById("updateModal");
+          var closeUpdateBtn = updateModal.querySelector(".close");
+
+          // Ensure close button is found
+          if (!closeUpdateBtn) {
+            console.error("Close button not found within update modal.");
+            return;
+          }
+
+          // Populate update modal with existing data
+          var formData = userData.formData[rowIndex - 1];
+          document.getElementById("update-title").value = formData.title;
+          document.getElementById("update-brief").value = formData.brief;
+          document.getElementById("update-notes").value = formData.difficulty;
+
+          updateModal.style.display = "block";
+          body.classList.add("body-overlay");
+
+          closeUpdateBtn.addEventListener("click", function () {
+            updateModal.style.display = "none";
+            body.classList.remove("body-overlay");
+          });
+
+          window.addEventListener("click", function (event) {
+            if (event.target == updateModal) {
+              updateModal.style.display = "none";
+              body.classList.remove("body-overlay");
+            }
+          });
+
+          // Update button logic
+          var updateForm = document.getElementById("updateForm");
+          updateForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Update form data
+            formData.title = document.getElementById("update-title").value;
+            formData.brief = document.getElementById("update-brief").value;
+            formData.difficulty = document.getElementById("update-notes").value;
+            var currentDate = new Date();
+            // Format date as YYYY-MM-DD
+            var formattedDate =
+              currentDate.getFullYear() +
+              "-" +
+              ("0" + (currentDate.getMonth() + 1)).slice(-2) +
+              "-" +
+              ("0" + currentDate.getDate()).slice(-2);
+            // Add formatted date to formData
+            console.log(formattedDate);
+            formData.date = formattedDate;
+
+            // Update local storage with modified data
+            localStorage.setItem(
+              "savedUserData",
+              JSON.stringify(savedUserData)
+            );
+            updateModal.style.display = "none";
+            body.classList.remove("body-overlay");
+            location.reload();
+          });
+        } else {
+          console.error(
+            "User data or form data not found for the current user."
+          );
+        }
+      } else {
+        console.error("Current user or saved user data not found.");
+      }
+    });
+  });
+});
+document.addEventListener("DOMContentLoaded", function () {
+  // Function to handle blockage button click
+  function handleBlockageClick(event) {
+    var rowIndex = event.target.closest("tr").rowIndex;
+    var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
+    var closeBlBtn = document.querySelector(".blockageModal .close");
+    var blockageModal = document.querySelector(".blockageModal");
+    closeBlBtn.addEventListener("click", function () {
+      blockageModal.style.display = "none";
+      // body.classList.remove("body-overlay");
+    });
+    if (currentUser && savedUserData.length > 0) {
+      var userData = savedUserData.find(function (user) {
+        return user.username === currentUser.username;
+      });
+
+      if (
+        userData &&
+        userData.formData &&
+        userData.formData.length > rowIndex - 1
+      ) {
+        var blockageModal = document.querySelector(".blockageModal");
+        blockageModal.style.display = "block";
+        var formData = userData.formData[rowIndex - 1];
+        // Display difficulty in the blockage modal
+        blockageModal.querySelector("p").textContent = formData.difficulty;
+      } else {
+        console.error("User data or form data not found for the current user.");
+      }
+    } else {
+      console.error("Current user or saved user data not found.");
+    }
+  }
+
+  // Attach blockage button click event listener to each blockage element
+  var blockageButtons = document.querySelectorAll("#blockage");
+  blockageButtons.forEach(function (blockageBtn) {
+    blockageBtn.addEventListener("click", handleBlockageClick);
+  });
+
+  // Other code...
 });

@@ -97,7 +97,7 @@ nav .nav-elements .list ul .log-out img {
     position: absolute;
     /* margin-top: 80px; */
     width: 100%;
-    bottom: 0;
+    /* bottom: 0; */
     /* top: 0; */
     /* width: 100%;  */
 
@@ -231,7 +231,7 @@ i {
     font-weight: bold;
     margin-right: 10px;
 }
-.modal-content .title {
+.modal-content .title , .modal-content .updateTitle {
     text-align: center;
     font-size: 25px;
     font-weight: 800;
@@ -281,7 +281,7 @@ i {
     background-color: #624de3;
 }
 
-#addModal {
+#addModal, #updateModal {
     display: none;
     position: absolute;
     top: 50%;
@@ -298,4 +298,11 @@ i {
     height: 100%;
     z-index: 1000; /* Ensure the overlay is above other content */
   }
-  
+
+  .blockageModal {
+    display: none;
+    width: 400px;
+    height: 400px;
+    margin-top: 400px;
+    background-color: #9181F4;
+  }
