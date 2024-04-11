@@ -2,6 +2,16 @@ var modal;
 var body;
 document.addEventListener("DOMContentLoaded", function () {
   var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  if (!currentUser || !currentUser.username) {
+    alert("Invalid User Please Login!");
+    window.location.href = "login.html";
+    return;
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var currentUser = JSON.parse(localStorage.getItem("currentUser"));
   var username = document.getElementById("name");
   username.innerHTML = `<p>${currentUser.username}</p>`;
 });
@@ -346,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var blockageModal = document.querySelector(".blockageModal");
     closeBlBtn.addEventListener("click", function () {
       blockageModal.style.display = "none";
-      // body.classList.remove("body-overlay");
+      body.classList.remove("body-overlay");
     });
     if (currentUser && savedUserData.length > 0) {
       var userData = savedUserData.find(function (user) {
@@ -360,9 +370,11 @@ document.addEventListener("DOMContentLoaded", function () {
       ) {
         var blockageModal = document.querySelector(".blockageModal");
         blockageModal.style.display = "block";
+        body.classList.add("body-overlay");
+
         var formData = userData.formData[rowIndex - 1];
         // Display difficulty in the blockage modal
-        blockageModal.querySelector("p").textContent = formData.difficulty;
+        blockageModal.querySelector(" p").textContent = formData.difficulty;
       } else {
         console.error("User data or form data not found for the current user.");
       }
@@ -376,6 +388,4 @@ document.addEventListener("DOMContentLoaded", function () {
   blockageButtons.forEach(function (blockageBtn) {
     blockageBtn.addEventListener("click", handleBlockageClick);
   });
-
-  // Other code...
 });

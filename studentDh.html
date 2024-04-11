@@ -34,31 +34,36 @@
         </div>
       </div>
     </nav>
-    <div class="container">
-        <h1>A Fancy Table </h1>
-        <table id="customers">
-          <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Difficulte</th>
-            <th>Valid OR Not</th>
-            <th>Action</th>
-          </tr>
-        </table>
-        <div class="addModal-btn" id="addModal-btn">
-          <p>ADD  Blockers</p>
-          <div class="icon-btn">
-            <i class="fas fa-plus"></i>
+    <div class="scroll">
+      <div class="container">
+          <h1>A Fancy Table </h1>
+          <table id="customers">
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Difficulte</th>
+              <th>Valid OR Not</th>
+              <th>Action</th>
+            </tr>
+          </table>
+          <div class="addModal-btn" id="addModal-btn">
+            <p>ADD  Blockers</p>
+            <div class="icon-btn">
+              <i class="fas fa-plus"></i>
+            </div>
+      
           </div>
-    
-        </div>
+      </div>
     </div>
     
     <footer>
         <div class="container">
             <div class="items">
-                hshshshshshhshs
-            </div>
+                <div class="imageFo">
+                  <img src="images/logo.png" alt="">
+                </div>
+              </div>
+              <h2>Copy Right 2024 </h2>
         </div>
     </footer>
     <div id="addModal" class="modal">
@@ -77,23 +82,23 @@
           <form id="dataForm">
             <div>
               <label>Formateur</label>
-              <input id="formateur" type="text">
+              <input id="formateur" type="text" required>
             </div>
             <div>
               <label>Bootcamp</label>
-              <input id="bootcamp" type="text">
+              <input id="bootcamp" type="text" required>
             </div>
             <div>
               <label>Title</label>
-              <input id="title" type="text">
+              <input id="title" type="text" required>
             </div>
             <div>
               <label>Brief</label>
-              <input id="brief" type="text">
+              <input id="brief" type="text" required>
             </div>
             <div>
               <label>la difficulté</label>
-              <textarea  id="notes" cols="30" rows="5"></textarea>
+              <textarea  id="notes" cols="30" rows="5" required></textarea>
             </div>
             <button type="submit">Add</button>
           </form>
@@ -136,7 +141,7 @@
 
     <div class="blockageModal">
       <button class="close">&times;</button>
-      <h1>your blockage is</h1>
+      <h1>Blockage</h1>
       <p></p>
     </div>
     <script src="dashboard.js"></script>
