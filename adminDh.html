@@ -13,8 +13,8 @@
       <div class="container">
         <div class="nav-elements">
           <div class="title">
-            <h1>Student DashBoard</h1>
-            <p id="name">Student</p>
+            <h1>Admin DashBoard</h1>
+            <p id="name">Admin</p>
           </div>
           <div class="logo">
             <img src="images/logo.png" alt="" />
@@ -63,7 +63,49 @@
     <div class="blockageModal">
       <button class="close">&times;</button>
       <h1>Blockage</h1>
-      <p></p>
+      <p id="theBlockage"></p>
+    </div>
+    <div id="adminCheck" class="modal">
+      <div class="modal-content">
+        <button class="close">&times;</button>
+        <div class="modal-nav">
+          <div class="modal-logo">
+            <img src="images/logo.png" alt="">
+          </div>
+          <div class="student-name">
+            <h3>Oussama</h3>
+          </div>
+        </div>
+        <h3 class="title">Admin Check</h3>
+        <div class="info">
+          <form id="dataForm">
+            <div>
+              <label>
+                  <input type="radio" name="adminOption" id="encadreRadio" value="encadreTextarea"> Encadré dans leurs recherches de solutions
+              </label>
+              <textarea id="encadreTextarea" cols="30" rows="5" style="display: none;"></textarea>
+          </div>
+          <div>
+              <label>
+                  <input type="radio" name="adminOption" id="aideRadio" value="aideTextarea"> Aidé par leurs pairs
+              </label>
+              <textarea id="aideTextarea" cols="30" rows="5" style="display: none;"></textarea>
+          </div>
+          <div>
+              <label>
+                  <input type="radio" name="adminOption" id="interventionRadio" value="interventionTextarea"> Intervention directe de formateur
+              </label>
+              <textarea id="interventionTextarea" cols="30" rows="5" style="display: none;"></textarea>
+          </div>
+            
+            <button type="submit">Add</button>
+          </form> 
+        </div>
+      </div>
+    </div>
+    
+        <!-- Your form elements for adding information go here -->
+      </div>
     </div>
     <script src="adminDb.js"></script>
   </body>

@@ -285,7 +285,7 @@ i {
     background-color: #624de3;
 }
 
-#addModal, #updateModal {
+#addModal, #updateModal, #adminCheck {
     display: none;
     position: absolute;
     top: 50%;

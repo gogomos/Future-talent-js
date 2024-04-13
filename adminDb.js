@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     var modal;
     var body;
+    var userId ;
+    var formDataId;
+    var firstName;
     var savedUserData = JSON.parse(localStorage.getItem("savedUserData") || "[]");
 
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -10,10 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "login.html";
         return;
     }
-
-    var username = document.getElementById("name");
-    username.innerHTML = `<p>${currentUser.username}</p>`;
-
     modal = document.getElementById("addModal");
     body = document.querySelector("body");
 
@@ -34,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (table && savedUserData.length > 0) {
         savedUserData.forEach(function(user) {
             user.formData.forEach(function(formData, index) {
-                // formData.id = index; // Assign a unique ID to each form data entry
                 var row = createRow(user, formData);
                 table.appendChild(row);
             });
@@ -50,18 +48,30 @@ document.addEventListener("DOMContentLoaded", function () {
             <td>${user.username}</td>
             <td>${data.date}</td>
             <td>
-            <div class="blockageBtn" style="cursor: pointer;" data-form-id="${data.id}">
-            <i class="fas fa-eye" style="color: black;"></i>
-        </div>
+                <div class="blockageBtn" style="cursor: pointer;" data-form-id="${data.id}">
+                    <i class="fas fa-eye" style="color: black;"></i>
+                </div>
             </td>
             <td class="ddk">
                 <div class="valid-btn">${data.valid}</div>
             </td>
             <td class="action">
-                <div class="update" style="cursor: pointer;"><i class="fas fa-pencil-alt" style="color: blue;"></i></div>
-                <div class="delete" style="cursor: pointer;"><i class="fas fa-trash" style="color: red;"></i></div>
+                <div class="addComment" id="addComment" data-name-id="${user.username}" data-form-id="${data.id}" data-user-id="${data.id}" style="cursor: pointer;">
+                    <i class="fas fa-plus"></i>
+                </div>
             </td>
         `;
+        var adminCheckModal = document.getElementById("adminCheck");
+        var addCommentBtn = row.querySelector(".addComment");
+        addCommentBtn.addEventListener("click", function () {
+            adminCheckModal.style.display = "block";
+            body.classList.add("body-overlay");
+            var studentName = adminCheckModal.querySelector(".modal-nav h3");
+            studentName.textContent = user.username;
+            userId = parseInt(this.dataset.userId);
+            formDataId = parseInt(this.dataset.formId);
+            firstName = this.dataset.nameId;
+        });
         return row;
     }
 
@@ -81,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 blockageModal.querySelector("p").textContent = formData.difficulty;
                 blockageModal.style.display = "block";
                 body.classList.add("body-overlay");
-                return; // Exit the function if the form data is found and displayed
+                return; 
             }
         }
     
@@ -101,4 +111,114 @@ document.addEventListener("DOMContentLoaded", function () {
         body.classList.remove("body-overlay");
     });
 
+// });
+var adminCheckForm = document.getElementById("dataForm");
+adminCheckForm.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default form submission behavior
+    var selectedOption = document.querySelector('input[name="adminOption"]:checked');
+    var textareaValue = document.getElementById(selectedOption.value).value;
+    var textTitle;
+    if (selectedOption.value == "encadreTextarea") {
+        textTitle = "Encadré dans leurs recherches de solutions";
+    }else if (selectedOption.value == "aideTextarea") {
+        textTitle = "Aidé par leurs pairs";
+    } else {
+        textTitle = "Intervention directe de formateur";
+    }
+    var newData = {
+        text: textTitle,
+        value: textareaValue
+    };
+
+    // Find the corresponding user in savedUserData
+    var userData = savedUserData.find(user => user.username === firstName);
+    // Add newData to the formData array of the corresponding user
+    if (userData) {
+        var existingFormData = userData.formData.find(data => data.id === formDataId);
+        if (existingFormData) {
+            // If formData with the same ID already exists, update it
+            existingFormData.text = newData.text;
+            existingFormData.value = newData.value;
+            // existingFormData.valid = "valid";
+        } else {
+            // If formData with the same ID doesn't exist, push newData
+            userData.formData.push(newData);
+        }
+
+        // Update savedUserData in localStorage
+        localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+
+        // Close admin check modal
+        var adminCheckModal = document.getElementById("adminCheck");
+        adminCheckModal.style.display = "none";
+        body.classList.remove("body-overlay");
+
+        // Optionally, you can update the table with the new data
+    } else {
+        console.error("User data not found for the selected user.");
+    }
 });
+
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the radio buttons and textareas
+    var encadreRadio = document.getElementById("encadreRadio");
+    var aideRadio = document.getElementById("aideRadio");
+    var interventionRadio = document.getElementById("interventionRadio");
+    var encadreTextarea = document.getElementById("encadreTextarea");
+    var aideTextarea = document.getElementById("aideTextarea");
+    var interventionTextarea = document.getElementById("interventionTextarea");
+    var adminCheckModal = document.getElementById("adminCheck");
+    var body = document.querySelector("body");
+    var adminCheckBtn = document.getElementById("addComment"); // Corrected selector
+    var closeAdminCheckBtn = document.querySelector("#adminCheck .close");
+
+    // Open admin check modal
+
+    adminCheckBtn.addEventListener("click", function () {
+      adminCheckModal.style.display = "block";
+      body.classList.add("body-overlay");
+    });
+
+    // Close admin check modal when close button is clicked
+    closeAdminCheckBtn.addEventListener("click", function () {
+      adminCheckModal.style.display = "none";
+      body.classList.remove("body-overlay");
+    });
+
+    // Close admin check modal when clicking outside the modal
+    window.addEventListener("click", function (event) {
+      if (event.target == adminCheckModal) {
+        adminCheckModal.style.display = "none";
+        body.classList.remove("body-overlay");
+      }
+    });
+
+    // Add event listeners to radio buttons
+    encadreRadio.addEventListener("change", function() {
+      if (this.checked) {
+        encadreTextarea.style.display = "block";
+        aideTextarea.style.display = "none";
+        interventionTextarea.style.display = "none";
+      }
+    });
+
+    aideRadio.addEventListener("change", function() {
+      if (this.checked) {
+        encadreTextarea.style.display = "none";
+        aideTextarea.style.display = "block";
+        interventionTextarea.style.display = "none";
+      }
+    });
+
+    interventionRadio.addEventListener("change", function() {
+      if (this.checked) {
+        encadreTextarea.style.display = "none";
+        aideTextarea.style.display = "none";
+        interventionTextarea.style.display = "block";
+      }
+    });
+});
+
