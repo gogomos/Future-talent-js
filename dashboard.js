@@ -230,6 +230,10 @@ function createRow(data) {
             <div class="delete" data-form-id="${data.id}"><i class="fas fa-trash" style="color: red;"></i></div>
         </td>
     `;
+    if (data.valid === "valid") {
+      row.querySelector(".valid-btn").style.backgroundColor = "rgba(0, 128, 0, 0.32)";
+      row.querySelector(".valid-btn").style.color = "green";
+  }
     return row;
 }
 

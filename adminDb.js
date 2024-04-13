@@ -61,6 +61,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </td>
         `;
+        if (data.valid === "valid") {
+            row.querySelector(".valid-btn").style.backgroundColor = "rgba(0, 128, 0, 0.32)";
+            row.querySelector(".valid-btn").style.color = "green";
+        }
         var adminCheckModal = document.getElementById("adminCheck");
         var addCommentBtn = row.querySelector(".addComment");
         addCommentBtn.addEventListener("click", function () {
@@ -139,7 +143,7 @@ adminCheckForm.addEventListener("submit", function (event) {
             // If formData with the same ID already exists, update it
             existingFormData.text = newData.text;
             existingFormData.value = newData.value;
-            // existingFormData.valid = "valid";
+            existingFormData.valid = "valid";
         } else {
             // If formData with the same ID doesn't exist, push newData
             userData.formData.push(newData);
@@ -152,7 +156,7 @@ adminCheckForm.addEventListener("submit", function (event) {
         var adminCheckModal = document.getElementById("adminCheck");
         adminCheckModal.style.display = "none";
         body.classList.remove("body-overlay");
-
+        location.reload();
         // Optionally, you can update the table with the new data
     } else {
         console.error("User data not found for the selected user.");

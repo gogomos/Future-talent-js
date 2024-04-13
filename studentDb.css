@@ -120,10 +120,11 @@ nav .nav-elements .list ul .log-out img {
     width: 80px;
     height: 25px;
     align-self: center;
-    background-color: rgba(21, 189, 21, 0.76);
+    background-color:rgba(255, 0, 0, 0.384) ;
     padding-top: 6px;
     border-radius: 20px;
-    color: green;
+    color: red;
+    
 }
 .update , .delete {
     display: inline-block;
