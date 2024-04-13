@@ -1,6 +1,8 @@
 var modal;
 var body;
 document.addEventListener("DOMContentLoaded", function () {
+  var savedUserData = JSON.parse(localStorage.getItem("savedUserData"));
+  console.log(savedUserData.formData);
   var currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   if (!currentUser || !currentUser.username) {
@@ -62,29 +64,112 @@ function saveFormData(formData) {
     console.error("Current user not found in local storage.");
   }
 }
+// dashboard.js
+
+// function savedUser() {
+//   var savedUserData = JSON.parse(localStorage.getItem("savedUserData") || "[]");
+
+//   var currentUserData = JSON.parse(localStorage.getItem("currentUser") || "{}");
+
+//   if (currentUserData) {
+//     var existingUserIndex = savedUserData.findIndex(function (user) {
+//       return user.username === currentUserData.username;
+//     });
+//     if (existingUserIndex !== -1) {
+//       var index = currentUserData.formData.length;
+//       // console.log(index - 1);
+//       savedUserData[existingUserIndex].formData.push(
+//         currentUserData.formData[index - 1]
+//       );
+//     } else {
+//       savedUserData.push(currentUserData);
+//     }
+//     localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+//   } else {
+//     alert("User data not found. Please log in again.");
+//   }
+// }
+// function generateRandomId(length) {
+//   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//   const charactersLength = characters.length;
+//   let randomId = '';
+
+//   for (let i = 0; i < length; i++) {
+//     randomId += characters.charAt(Math.floor(Math.random() * charactersLength));
+//   }
+
+//   return randomId;
+// }
+
+// function savedUser() {
+//   var savedUserData = JSON.parse(localStorage.getItem("savedUserData") || "[]");
+//   var currentUserData = JSON.parse(localStorage.getItem("currentUser") || "{}");
+
+//   if (currentUserData && currentUserData.username) {
+//     var existingUserIndex = savedUserData.findIndex(function (user) {
+//       return user.username === currentUserData.username;
+//     });
+
+//     if (existingUserIndex !== -1) {
+//       var formData = currentUserData.formData[currentUserData.formData.length - 1];
+
+//       // Generate a unique random ID
+//       var randomId;
+//       do {
+//         randomId = generateRandomId(8); // Adjust the length as needed
+//       } while (savedUserData[existingUserIndex].formData.some(data => data.id === randomId));
+
+//       formData.id = randomId; // Set the generated ID
+//       savedUserData[existingUserIndex].formData.push(formData);
+//       localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+//     } else {
+//       alert("Current user data not found in savedUserData.");
+//     }
+//   } else {
+//     alert("Invalid or missing current user data.");
+//   }
+// }
+
+function generateRandomId(length) {
+  let randomId = "";
+  for (let i = 0; i < length; i++) {
+    randomId += Math.floor(Math.random() * 10); // Generate a random number between 0 and 9
+  }
+  return parseInt(randomId); // Parse the string to an integer
+}
+
 function savedUser() {
   var savedUserData = JSON.parse(localStorage.getItem("savedUserData") || "[]");
-
   var currentUserData = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
-  if (currentUserData) {
-    var existingUserIndex = savedUserData.findIndex(function (user) {
-      return user.username === currentUserData.username;
-    });
-    if (existingUserIndex !== -1) {
-      var index = currentUserData.formData.length;
-      console.log(index - 1);
-      savedUserData[existingUserIndex].formData.push(
-        currentUserData.formData[index - 1]
-      );
-    } else {
-      savedUserData.push(currentUserData);
-    }
-    localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+  if (currentUserData && currentUserData.username) {
+      var existingUser = savedUserData.find(function (user) {
+          return user.username === currentUserData.username;
+      });
+
+      if (existingUser) {
+          // If the user exists, push the latest form data
+          var latestFormData = currentUserData.formData[currentUserData.formData.length - 1];
+
+          // Generate a unique random ID
+          var randomId;
+          do {
+              randomId = generateRandomId(4); // Adjust the length as needed
+          } while (existingUser.formData.some((data) => data.id === randomId));
+
+          latestFormData.id = randomId; // Set the generated ID
+          existingUser.formData.push(latestFormData);
+      } else {
+          // If the user doesn't exist, add the entire current user's data
+          savedUserData.push(currentUserData);
+      }
+
+      localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
   } else {
-    alert("User data not found. Please log in again.");
+      alert("Invalid or missing current user data.");
   }
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
   var dataForm = document.getElementById("dataForm");
@@ -94,6 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
       event.preventDefault();
       var validDef = "NotValid";
       var formData = {
+        id: Math.floor(Math.random() * 200),
         formateur: document.getElementById("formateur").value,
         bootcamp: document.getElementById("bootcamp").value,
         title: document.getElementById("title").value,
@@ -181,131 +267,346 @@ document.addEventListener("DOMContentLoaded", function () {
 // });
 
 //update
+// document.addEventListener("DOMContentLoaded", function () {
+//   var table = document.getElementById("customers");
+
+//   // Retrieve data from local storage for the current user
+//   var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+//   var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
+
+//   if (table && currentUser) {
+//     // Find the data of the current user
+//     var userData = savedUserData.find(function (user) {
+//       return user.username === currentUser.username; // Adjust this condition based on your user data structure
+//     });
+
+//     if (userData && userData.formData) {
+//       // Function to create a table row
+//       function createRow(data, index) {
+//         var row = document.createElement("tr");
+//         row.innerHTML = `
+//           <td>${data.formateur}</td>
+//           <td>${data.date}</td>
+//           <td>
+//             <div id="blockage">
+//               <i class="fas fa-eye" style="color: black;"></i> <!-- Eye icon -->
+//             </div>
+//           </td>
+//           <td class="ddk">
+//             <div class="valid-btn">Valid</div>
+//           </td>
+//           <td class="action">
+//             <div class="update" id="updateBtn"> <i class="fas fa-pencil-alt" style="color: blue;"></i></div>
+//             <div class="delete"><i class="fas fa-trash" style="color: red;"></i></div>
+//           </td>
+//         `;
+//         // Add event listener to the delete icon in this row
+//         var deleteBtn = row.querySelector(".delete");
+//         deleteBtn.addEventListener("click", function (event) {
+//           // Remove data from current user's formData array
+//           userData.formData.splice(index, 1);
+//           // Update local storage with modified data
+//           localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+//           // Remove row from table
+//           row.remove();
+//         });
+//         return row;
+//       }
+
+//       // Populate table with data from current user's formData
+//       userData.formData.forEach(function (formData, index) {
+//         var row = createRow(formData, index);
+//         table.appendChild(row);
+//       });
+//     } else {
+//       console.error("User data or formData not found for the current user.");
+//     }
+//   } else {
+//     console.error("Table or current user data not found.");
+//   }
+// });
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   // Define body and table variables
+//   var body = document.querySelector("body");
+//   var table = document.getElementById("customers");
+//   var updateModal = document.getElementById("updateModal");
+//   var updateModalBtn = document.getElementById("updateBtn");
+//   if (updateModalBtn) {
+//     updateModalBtn.addEventListener("click", function () {
+//       updateModal.style.display = "block";
+//       body.classList.add("body-overlay");
+//     });
+//   } else {
+//     console.error("Update modal button not found.");
+//   }
+
+//   // Update button event listener
+//   var updateBtns = document.querySelectorAll(".update");
+//   updateBtns.forEach(function (updateBtn) {
+//     updateBtn.addEventListener("click", function () {
+//       var rowIndex = this.closest("tr").rowIndex;
+//       var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+//       var savedUserData =
+//         JSON.parse(localStorage.getItem("savedUserData")) || [];
+
+//       if (currentUser && savedUserData.length > 0) {
+//         var userData = savedUserData.find(function (user) {
+//           return user.username === currentUser.username;
+//         });
+
+//         if (
+//           userData &&
+//           userData.formData &&
+//           userData.formData.length > rowIndex - 1
+//         ) {
+//           // console.log(rowIndex);
+//           var updateModal = document.getElementById("updateModal");
+//           var closeUpdateBtn = updateModal.querySelector(".close");
+
+//           // Ensure close button is found
+//           if (!closeUpdateBtn) {
+//             console.error("Close button not found within update modal.");
+//             return;
+//           }
+//           if (!updateModal) {
+//             console.error("Close button not found within update modal.");
+//             return;
+//           }
+
+//           // Populate update modal with existing data
+//           var formData = userData.formData[rowIndex - 1];
+//           document.getElementById("update-title").value = formData.title;
+//           document.getElementById("update-brief").value = formData.brief;
+//           document.getElementById("update-notes").value = formData.difficulty;
+
+//           updateModal.style.display = "block";
+//           body.classList.add("body-overlay");
+
+//           closeUpdateBtn.addEventListener("click", function () {
+//             updateModal.style.display = "none";
+//             body.classList.remove("body-overlay");
+//           });
+
+//           window.addEventListener("click", function (event) {
+//             if (event.target == updateModal) {
+//               updateModal.style.display = "none";
+//               body.classList.remove("body-overlay");
+//             }
+//           });
+
+//           // Update button logic
+//           var updateForm = document.getElementById("updateForm");
+//           updateForm.addEventListener("submit", function (event) {
+//             event.preventDefault();
+
+//             // Update form data
+//             formData.title = document.getElementById("update-title").value;
+//             formData.brief = document.getElementById("update-brief").value;
+//             formData.difficulty = document.getElementById("update-notes").value;
+//             var currentDate = new Date();
+//             // Format date as YYYY-MM-DD
+//             var formattedDate =
+//               currentDate.getFullYear() +
+//               "-" +
+//               ("0" + (currentDate.getMonth() + 1)).slice(-2) +
+//               "-" +
+//               ("0" + currentDate.getDate()).slice(-2);
+//             // Add formatted date to formData
+//             console.log(formattedDate);
+//             formData.date = formattedDate;
+
+//             // Update local storage with modified data
+//             localStorage.setItem(
+//               "savedUserData",
+//               JSON.stringify(savedUserData)
+//             );
+//             updateModal.style.display = "none";
+//             body.classList.remove("body-overlay");
+//             location.reload();
+//           });
+//         } else {
+//           console.error(
+//             "User data or form data not found for the current user."
+//           );
+//         }
+//       } else {
+//         console.error("Current user or saved user data not found.");
+//       }
+//     });
+//   });
+// });
+// document.addEventListener("DOMContentLoaded", function () {
+//   // Function to handle blockage button click
+//   function handleBlockageClick(event) {
+//     var rowIndex = event.target.closest("tr").rowIndex;
+//     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+//     var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
+//     var closeBlBtn = document.querySelector(".blockageModal .close");
+//     var blockageModal = document.querySelector(".blockageModal");
+//     closeBlBtn.addEventListener("click", function () {
+//       blockageModal.style.display = "none";
+//       body.classList.remove("body-overlay");
+//     });
+//     if (currentUser && savedUserData.length > 0) {
+//       var userData = savedUserData.find(function (user) {
+//         return user.username === currentUser.username;
+//       });
+
+//       if (
+//         userData &&
+//         userData.formData &&
+//         userData.formData.length > rowIndex - 1
+//       ) {
+//         var blockageModal = document.querySelector(".blockageModal");
+//         blockageModal.style.display = "block";
+//         body.classList.add("body-overlay");
+
+//         var formData = userData.formData[rowIndex - 1];
+//         // Display difficulty in the blockage modal
+//         blockageModal.querySelector(" p").textContent = formData.difficulty;
+//       } else {
+//         console.error("User data or form data not found for the current user.");
+//       }
+//     } else {
+//       console.error("Current user or saved user data not found.");
+//     }
+//   }
+
+//   // Attach blockage button click event listener to each blockage element
+//   var blockageButtons = document.querySelectorAll("#blockage");
+//   blockageButtons.forEach(function (blockageBtn) {
+//     blockageBtn.addEventListener("click", handleBlockageClick);
+//   });
+// });
+
+// last work
+
 document.addEventListener("DOMContentLoaded", function () {
-  var table = document.getElementById("customers");
-
-  // Retrieve data from local storage for the current user
-  var currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
-
-  if (table && currentUser) {
-    // Find the data of the current user
-    var userData = savedUserData.find(function (user) {
-      return user.username === currentUser.username; // Adjust this condition based on your user data structure
-    });
-
-    if (userData && userData.formData) {
-      // Function to create a table row
-      function createRow(data, index) {
-        var row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${data.formateur}</td>
-          <td>${data.date}</td>
-          <td>
-            <div id="blockage">
-              <i class="fas fa-eye" style="color: black;"></i> <!-- Eye icon -->
-            </div>
-          </td>
-          <td class="ddk">
-            <div class="valid-btn">Valid</div>
-          </td>
-          <td class="action">
-            <div class="update" id="updateBtn"> <i class="fas fa-pencil-alt" style="color: blue;"></i></div>
-            <div class="delete"><i class="fas fa-trash" style="color: red;"></i></div>
-          </td>
-        `;
-        // Add event listener to the delete icon in this row
-        var deleteBtn = row.querySelector(".delete");
-        deleteBtn.addEventListener("click", function (event) {
-          // Remove data from current user's formData array
-          userData.formData.splice(index, 1);
-          // Update local storage with modified data
-          localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
-          // Remove row from table
-          row.remove();
-        });
-        return row;
-      }
-
-      // Populate table with data from current user's formData
-      userData.formData.forEach(function (formData, index) {
-        var row = createRow(formData, index);
-        table.appendChild(row);
-      });
-    } else {
-      console.error("User data or formData not found for the current user.");
-    }
-  } else {
-    console.error("Table or current user data not found.");
-  }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  // Define body and table variables
   var body = document.querySelector("body");
   var table = document.getElementById("customers");
-  var updateModal = document.getElementById("updateModal");
-  var updateModalBtn = document.getElementById("updateBtn");
-  if (updateModalBtn) {
-    updateModalBtn.addEventListener("click", function () {
-      updateModal.style.display = "block";
-      body.classList.add("body-overlay");
-    });
-  } else {
-    console.error("Update modal button not found.");
+
+  // Function to handle delete button click
+  function handleDeleteClick(event) {
+    var deleteBtn = event.target.closest(".delete");
+    if (!deleteBtn) return; // If the click is not on a delete button, exit
+
+    var formDataId = parseInt(deleteBtn.dataset.formId); // Get the ID from the dataset
+    var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
+
+    if (currentUser && savedUserData.length > 0) {
+      var userData = savedUserData.find(function (user) {
+        return user.username === currentUser.username;
+      });
+
+      if (userData && userData.formData) {
+        var formDataIndex = userData.formData.findIndex(function (data) {
+          return data.id === formDataId;
+        });
+        if (formDataIndex !== -1) {
+          // Remove the form data entry from the array
+          userData.formData.splice(formDataIndex, 1);
+          // Update local storage with modified data
+          localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+          // Remove the row from the table
+          deleteBtn.closest("tr").remove();
+          return; // Exit the function if the form data is deleted and row removed
+        }
+      }
+    }
+    console.error("User data or form data not found for the current user.");
   }
 
-  // Update button event listener
-  var updateBtns = document.querySelectorAll(".update");
-  updateBtns.forEach(function (updateBtn) {
-    updateBtn.addEventListener("click", function () {
-      var rowIndex = this.closest("tr").rowIndex;
-      var currentUser = JSON.parse(localStorage.getItem("currentUser"));
-      var savedUserData =
-        JSON.parse(localStorage.getItem("savedUserData")) || [];
+  // Attach delete button click event listener to each delete button
+  table.addEventListener("click", handleDeleteClick);
 
-      if (currentUser && savedUserData.length > 0) {
+  // Function to display all data in the table
+  function displayUserData() {
+    var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
+
+    if (currentUser && savedUserData.length > 0) {
         var userData = savedUserData.find(function (user) {
-          return user.username === currentUser.username;
+            return user.username === currentUser.username;
         });
 
-        if (
-          userData &&
-          userData.formData &&
-          userData.formData.length > rowIndex - 1
-        ) {
-          // console.log(rowIndex);
-          var updateModal = document.getElementById("updateModal");
-          var closeUpdateBtn = updateModal.querySelector(".close");
+        if (userData && userData.formData) {
+            userData.formData.forEach(function (formData) {
+                var row = createRow(formData);
+                table.appendChild(row);
+            });
+        } else {
+            console.error("Form data not found for the current user.");
+        }
+    } else {
+        console.error("Current user data not found.");
+    }
+}
 
-          // Ensure close button is found
-          if (!closeUpdateBtn) {
-            console.error("Close button not found within update modal.");
-            return;
-          }
+// Function to create table row
+function createRow(data) {
+    var row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${data.formateur}</td>
+        <td>${data.date}</td>
+        <td>
+            <div id="blockage" data-form-id="${data.id}">
+                <i class="fas fa-eye" style="color: black;"></i>
+            </div>
+        </td>
+        <td class="ddk">
+            <div class="valid-btn">${data.valid}</div>
+        </td>
+        <td class="action">
+            <div class="update" data-form-id="${data.id}"> <i class="fas fa-pencil-alt" style="color: blue;"></i></div>
+            <div class="delete" data-form-id="${data.id}"><i class="fas fa-trash" style="color: red;"></i></div>
+        </td>
+    `;
+    return row;
+}
 
-          // Populate update modal with existing data
-          var formData = userData.formData[rowIndex - 1];
+// Display data of the current user when the page loads
+displayUserData();
+
+
+  // Function to handle update button click
+  function handleUpdateClick(event) {
+    var updateModal = document.getElementById("updateModal");
+    var closeUpdateBtn = updateModal.querySelector(".close");
+    closeUpdateBtn.addEventListener("click", function () {
+      updateModal.style.display = "none";
+      body.classList.remove("body-overlay");
+    });
+    var updateBtn = event.target.closest(".update");
+    if (!updateBtn) return; // If the click is not on an update button, exit
+
+    var formDataId = parseInt(updateBtn.dataset.formId); // Get the ID from the dataset
+    var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
+
+    if (currentUser && savedUserData.length > 0) {
+      var userData = savedUserData.find(function (user) {
+        return user.username === currentUser.username;
+      });
+
+      if (userData && userData.formData) {
+        var formData = userData.formData.find(function (data) {
+          return data.id === formDataId;
+        });
+
+        if (formData) {
+          // Populate the update modal with existing data
           document.getElementById("update-title").value = formData.title;
           document.getElementById("update-brief").value = formData.brief;
           document.getElementById("update-notes").value = formData.difficulty;
 
+          // Display the update modal
+          var updateModal = document.getElementById("updateModal");
           updateModal.style.display = "block";
           body.classList.add("body-overlay");
 
-          closeUpdateBtn.addEventListener("click", function () {
-            updateModal.style.display = "none";
-            body.classList.remove("body-overlay");
-          });
-
-          window.addEventListener("click", function (event) {
-            if (event.target == updateModal) {
-              updateModal.style.display = "none";
-              body.classList.remove("body-overlay");
-            }
-          });
-
-          // Update button logic
+          // Handle update form submission
           var updateForm = document.getElementById("updateForm");
           updateForm.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -323,7 +624,6 @@ document.addEventListener("DOMContentLoaded", function () {
               "-" +
               ("0" + currentDate.getDate()).slice(-2);
             // Add formatted date to formData
-            console.log(formattedDate);
             formData.date = formattedDate;
 
             // Update local storage with modified data
@@ -331,27 +631,31 @@ document.addEventListener("DOMContentLoaded", function () {
               "savedUserData",
               JSON.stringify(savedUserData)
             );
+
+            // Close the update modal
             updateModal.style.display = "none";
             body.classList.remove("body-overlay");
-            location.reload();
           });
-        } else {
-          console.error(
-            "User data or form data not found for the current user."
-          );
+          return; // Exit the function if the form data is found and update modal displayed
         }
-      } else {
-        console.error("Current user or saved user data not found.");
       }
-    });
-  });
-});
-document.addEventListener("DOMContentLoaded", function () {
+    }
+    console.error("User data or form data not found for the current user.");
+  }
+
+  // Attach update button click event listener to each update button
+  table.addEventListener("click", handleUpdateClick);
+
   // Function to handle blockage button click
   function handleBlockageClick(event) {
-    var rowIndex = event.target.closest("tr").rowIndex;
+    var blockageBtn = event.target.closest("#blockage");
+    if (!blockageBtn) return; // If the click is not on a blockage button, exit
+
+    var formDataId = parseInt(blockageBtn.dataset.formId); // Get the ID from the dataset
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
     var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
+    var blockageModal = document.querySelector(".blockageModal");
+    var body = document.querySelector("body");
     var closeBlBtn = document.querySelector(".blockageModal .close");
     var blockageModal = document.querySelector(".blockageModal");
     closeBlBtn.addEventListener("click", function () {
@@ -363,29 +667,21 @@ document.addEventListener("DOMContentLoaded", function () {
         return user.username === currentUser.username;
       });
 
-      if (
-        userData &&
-        userData.formData &&
-        userData.formData.length > rowIndex - 1
-      ) {
-        var blockageModal = document.querySelector(".blockageModal");
-        blockageModal.style.display = "block";
-        body.classList.add("body-overlay");
-
-        var formData = userData.formData[rowIndex - 1];
-        // Display difficulty in the blockage modal
-        blockageModal.querySelector(" p").textContent = formData.difficulty;
-      } else {
-        console.error("User data or form data not found for the current user.");
+      if (userData && userData.formData) {
+        var formData = userData.formData.find(function (data) {
+          return data.id === formDataId;
+        });
+        if (formData) {
+          blockageModal.style.display = "block";
+          body.classList.add("body-overlay");
+          blockageModal.querySelector(" p").textContent = formData.difficulty;
+          return; // Exit the function if the form data is found and blockage modal displayed
+        }
       }
-    } else {
-      console.error("Current user or saved user data not found.");
     }
+    console.error("User data or form data not found for the current user.");
   }
 
   // Attach blockage button click event listener to each blockage element
-  var blockageButtons = document.querySelectorAll("#blockage");
-  blockageButtons.forEach(function (blockageBtn) {
-    blockageBtn.addEventListener("click", handleBlockageClick);
-  });
+  table.addEventListener("click", handleBlockageClick);
 });

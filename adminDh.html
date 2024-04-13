@@ -1,18 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="studentDb.css">
-</head>
-<body>
+    <link rel="stylesheet" href="studentDb.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  </head>
+  <body>
     <nav>
-        <div class="container">
-            <div class="title">
-                <h2>Student DashBoard</h2>
-            </div>
+      <div class="container">
+        <div class="nav-elements">
+          <div class="title">
+            <h1>Student DashBoard</h1>
+            <p id="name">Student</p>
+          </div>
+          <div class="logo">
+            <img src="images/logo.png" alt="" />
+          </div>
+          <div class="list">
+            <ul>
+              <li><a href="">accuil</a></li>
+              <li><a href="">contact</a></li>
+              <div class="log-out" id="logoutBtn">
+
+                  <img src="images/logout_icon_151219.png" alt="" />
+          
+                <!-- <li><a href="">log-out</a></li> -->
+              </div>
+            </ul>
+          </div>
         </div>
+      </div>
     </nav>
-</body>
+    <div class="scroll">
+      <div class="container">
+          <h1>A Fancy Table </h1>
+          <table id="customers">
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Difficulte</th>
+              <th>Valid OR Not</th>
+              <th>Action</th>
+            </tr>
+          </table>
+          </div>
+      </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="items">
+                <div class="imageFo">
+                  <img src="images/logo.png" alt="">
+                </div>
+              </div>
+              <h2>Copy Right 2024 </h2>
+        </div>
+    </footer>
+    <div class="blockageModal">
+      <button class="close">&times;</button>
+      <h1>Blockage</h1>
+      <p></p>
+    </div>
+    <script src="adminDb.js"></script>
+  </body>
 </html>
