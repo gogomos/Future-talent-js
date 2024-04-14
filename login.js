@@ -22,8 +22,6 @@ if (loginForm) {
         };
         localStorage.setItem("currentUser", JSON.stringify(user));
 
-        // Accessing current user's information in the dashboard
-        // var currentUser = JSON.parse(localStorage.getItem("currentUser"));
         if (user.role === "admin") {
           window.location.href = "adminDh.html";
         } else {

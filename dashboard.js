@@ -1,6 +1,26 @@
 var modal;
 var body;
+function handleAddNewItem() {
+  // Logic to add the new item in the admin interface
+
+  // Set the flag in Local Storage
+  localStorage.setItem("StudentDataChanged", "true");
+}
 document.addEventListener("DOMContentLoaded", function () {
+  // Check for changes in local storage periodically
+
+  // Example event handler for adding a new item in the admin interface
+
+  setInterval(function () {
+    // Check if the flag is set in local storage
+    if (localStorage.getItem("adminDataChanged")) {
+      // Reload the student dashboard
+      window.location.reload();
+      // Clear the flag from local storage
+      localStorage.removeItem("adminDataChanged");
+    }
+  }, 5000); // Check every 5 seconds (adjust this interval as needed)
+
   var savedUserData = JSON.parse(localStorage.getItem("savedUserData"));
   console.log(savedUserData.formData);
   var currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -78,33 +98,34 @@ function savedUser() {
   var currentUserData = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
   if (currentUserData && currentUserData.username) {
-      var existingUser = savedUserData.find(function (user) {
-          return user.username === currentUserData.username;
-      });
+    var existingUser = savedUserData.find(function (user) {
+      return user.username === currentUserData.username;
+    });
 
-      if (existingUser) {
-          // If the user exists, push the latest form data
-          var latestFormData = currentUserData.formData[currentUserData.formData.length - 1];
+    if (existingUser) {
+      // If the user exists, push the latest form data
+      var latestFormData =
+        currentUserData.formData[currentUserData.formData.length - 1];
 
-          // Generate a unique random ID
-          var randomId;
-          do {
-              randomId = generateRandomId(4); // Adjust the length as needed
-          } while (existingUser.formData.some((data) => data.id === randomId));
+      // Generate a unique random ID
+      var randomId;
+      do {
+        randomId = generateRandomId(4); // Adjust the length as needed
+      } while (existingUser.formData.some((data) => data.id === randomId));
 
-          latestFormData.id = randomId; // Set the generated ID
-          existingUser.formData.push(latestFormData);
-      } else {
-          // If the user doesn't exist, add the entire current user's data
-          savedUserData.push(currentUserData);
-      }
+      latestFormData.id = randomId; // Set the generated ID
+      existingUser.formData.push(latestFormData);
+    } else {
+      // If the user doesn't exist, add the entire current user's data
+      savedUserData.push(currentUserData);
+    }
 
-      localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+    localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+    handleAddNewItem();
   } else {
-      alert("Invalid or missing current user data.");
+    alert("Invalid or missing current user data.");
   }
 }
-
 
 document.addEventListener("DOMContentLoaded", function () {
   var dataForm = document.getElementById("dataForm");
@@ -176,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
           userData.formData.splice(formDataIndex, 1);
           // Update local storage with modified data
           localStorage.setItem("savedUserData", JSON.stringify(savedUserData));
+          handleAddNewItem();
           // Remove the row from the table
           deleteBtn.closest("tr").remove();
           return; // Exit the function if the form data is deleted and row removed
@@ -194,25 +216,25 @@ document.addEventListener("DOMContentLoaded", function () {
     var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
 
     if (currentUser && savedUserData.length > 0) {
-        var userData = savedUserData.find(function (user) {
-            return user.username === currentUser.username;
+      var userData = savedUserData.find(function (user) {
+        return user.username === currentUser.username;
+      });
+
+      if (userData && userData.formData) {
+        userData.formData.forEach(function (formData) {
+          var row = createRow(formData);
+          table.appendChild(row);
         });
-
-        if (userData && userData.formData) {
-            userData.formData.forEach(function (formData) {
-                var row = createRow(formData);
-                table.appendChild(row);
-            });
-        } else {
-            console.error("Form data not found for the current user.");
-        }
+      } else {
+        console.error("Form data not found for the current user.");
+      }
     } else {
-        console.error("Current user data not found.");
+      console.error("Current user data not found.");
     }
-}
+  }
 
-// Function to create table row
-function createRow(data) {
+  // Function to create table row
+  function createRow(data) {
     var row = document.createElement("tr");
     row.innerHTML = `
         <td>${data.formateur}</td>
@@ -230,16 +252,31 @@ function createRow(data) {
             <div class="delete" data-form-id="${data.id}"><i class="fas fa-trash" style="color: red;"></i></div>
         </td>
     `;
+    var breifChecked = document.getElementById("breifChecked");
     if (data.valid === "valid") {
-      row.querySelector(".valid-btn").style.backgroundColor = "rgba(0, 128, 0, 0.32)";
+      row.querySelector(".valid-btn").style.backgroundColor =
+        "rgba(0, 128, 0, 0.32)";
       row.querySelector(".valid-btn").style.color = "green";
-  }
+      row.querySelector(".valid-btn").style.cursor = "pointer";
+      breifChecked.querySelector("#bfTitle").textContent = data.text;
+      breifChecked.querySelector("#bfContent").textContent = data.value;
+      row.querySelector(".valid-btn").addEventListener("click", function () {
+        // Display the briefChecked modal
+        breifChecked.style.display = "block";
+        body.classList.add("body-overlay");
+      });
+      var closeBlBtn = breifChecked.querySelector(".close");
+
+      closeBlBtn.addEventListener("click", function () {
+        breifChecked.style.display = "none";
+        body.classList.remove("body-overlay");
+      });
+    }
     return row;
-}
+  }
 
-// Display data of the current user when the page loads
-displayUserData();
-
+  // Display data of the current user when the page loads
+  displayUserData();
 
   // Function to handle update button click
   function handleUpdateClick(event) {
@@ -302,6 +339,7 @@ displayUserData();
               "savedUserData",
               JSON.stringify(savedUserData)
             );
+            handleAddNewItem();
 
             // Close the update modal
             updateModal.style.display = "none";
@@ -345,7 +383,16 @@ displayUserData();
         if (formData) {
           blockageModal.style.display = "block";
           body.classList.add("body-overlay");
-          blockageModal.querySelector(" p").textContent = formData.difficulty;
+          blockageModal.querySelector("#theBlockage").textContent =
+            formData.difficulty;
+          blockageModal.querySelector("#formateurName").textContent =
+            formData.formateur;
+          blockageModal.querySelector("#blockageTitle").textContent =
+            formData.title;
+          blockageModal.querySelector("#bootcampType").textContent =
+            formData.bootcamp;
+            blockageModal.querySelector("#briefContent").textContent =
+            formData.brief;
           return; // Exit the function if the form data is found and blockage modal displayed
         }
       }

@@ -82,11 +82,21 @@
           <form id="dataForm">
             <div>
               <label>Formateur</label>
-              <input id="formateur" type="text" required>
+              <select id="formateur" required>
+                <!-- Add options for the select dropdown -->
+                <option value="Abdelaziz">Abdelaziz</option>
+                <option value="Aymen">Aymen</option>
+                <option value="Salma">Salma</option>
+            </select>
             </div>
             <div>
               <label>Bootcamp</label>
-              <input id="bootcamp" type="text" required>
+              <select id="bootcamp" required>
+                <!-- Add options for the select dropdown -->
+                <option value="Java-Angular">Java-Angular</option>
+                <option value="MERN-Stack">MERN-Stack</option>
+                <option value="PHP-VueJs">PHP-VueJs</option>
+            </select>
             </div>
             <div>
               <label>Title</label>
@@ -140,9 +150,38 @@
     </div>
 
     <div class="blockageModal">
-      <button class="close">&times;</button>
-      <h1>Blockage</h1>
-      <p></p>
+      <button id="close-bg" class="close">&times;</button>
+      <div class="allInfo">
+        <div class="informatinBg">
+          <div class="infBg">
+            <h2>Formateur:</h2>
+            <p id="formateurName" class="bgTitle"></p>
+          </div>
+          <div class="infBg">
+            <h2>Title: </h2>
+            <p id="blockageTitle" class="bgTitle"></p>
+          </div>
+          <div class="infBg">
+            <h2>Bootcamp: </h2>
+            <p id="bootcampType" class="bgTitle"></p>
+          </div>
+          <div class="infBg">
+            <h2>Brief: </h2>
+            <p id="briefContent" class="bgTitle"></p>
+          </div>
+  
+        </div>
+        <div class="bgContent">
+          <h2>Blockage:</h2>
+          <p id="theBlockage"></p>
+        </div>
+      </div>
+    </div>
+    <div id="breifChecked">
+      <button id="close-bg" class="close">&times;</button>
+
+      <h2 id="bfTitle">The Title</h2>
+      <p id="bfContent">eefeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</p>
     </div>
     <script src="dashboard.js"></script>
   </body>
