@@ -188,3 +188,77 @@ input[type="checkbox"] {
     width: 15px;
     transform: translateY(-50%);
 }
+
+/* Original CSS styles */
+
+/* Your existing CSS styles here */
+
+/* Media query for responsiveness */
+@media screen and (max-width: 768px) {
+    .login {
+      flex-direction: column-reverse; /* Stack login elements vertically on smaller screens */
+      min-height: auto; /* Reset min-height */
+    }
+    body, html {
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+    }
+    .login .background {
+      width: 100%; /* Full width background */
+    }
+  
+    .login .background .image {
+      width: 80%; /* Adjust image width */
+      margin: 0 auto; /* Center image */
+      height: auto; /* Auto height */
+      border-radius: 10px; /* Reduce border radius */
+      box-shadow: none; /* Remove box shadow */
+      border: none; /* Remove border */
+    }
+  
+    .login .background .image h1 {
+      padding: 20px 0;
+      text-align: center; /* Center text */
+      font-size: 18px; /* Reduce font size */
+    }
+  
+    .login .background .image .girl {
+      display: none; /* Hide girl image on smaller screens */
+    }
+  
+    .login .login-text {
+      width: 100%; 
+      /* padding: 20px;  */
+    }
+  
+    .login-text .login-Form {
+      width: 100%; /* Full width form */
+      border-radius: 0; /* Remove border radius */
+      box-shadow: none; /* Remove box shadow */
+      background-color: transparent; /* Transparent background */
+    }
+  
+    .login-text .login-Form h1 {
+      text-align: center; /* Center text */
+      font-size: 24px; /* Increase font size */
+      margin-bottom: 20px; /* Add margin bottom */
+    }
+
+    form .put::before {
+      display: none; /* Hide input icons on smaller screens */
+    }
+  
+    .line {
+      width: 100%; /* Full width line */
+      margin-top: 20px; /* Adjust margin top */
+      text-align: center; /* Center line */
+    }
+  
+    .line .white-line {
+      width: 50%; /* Half width white line */
+    }
+  
+    input[type="checkbox"] {
+      right: 10px; /* Adjust checkbox position */
+    }
+  }
+  

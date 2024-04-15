@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
+  var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  if (!currentUser || !currentUser.username  || currentUser.role != "admin" ) {
+    alert("Invalid User Please Login!");
+    window.location.href = "login.html";
+    return;
+  }
   // When something is added in the admin interface
 function somethingAddedInAdmin() {
     // Set a flag in local storage
@@ -14,9 +21,6 @@ setInterval(function() {
         localStorage.removeItem('StudentDataChanged');
     }
 }, 5000); // Check every 5 seconds (adjust this interval as needed)
-
-
-
   var modal;
   var body;
   var userId;

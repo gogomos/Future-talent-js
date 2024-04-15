@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }, 5000); // Check every 5 seconds (adjust this interval as needed)
 
   var savedUserData = JSON.parse(localStorage.getItem("savedUserData"));
-  console.log(savedUserData.formData);
+  // console.log(savedUserData.formData);
   var currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   if (!currentUser || !currentUser.username) {
