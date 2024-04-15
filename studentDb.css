@@ -266,15 +266,7 @@ i {
     border-radius: 5px;
     margin-bottom: 8px;
 }
-/* #close-bg {
-    font-size: 20px;
-    background-color: rgba(230, 60, 60, 0.644);
-    border-radius: 5px;
-    margin-bottom: 2px;
-    position: absolute;
-    right: 23px;
-    top: 12px;
-}   */
+
 .student-name {
     font-size: 18px;
     font-weight: bold;
@@ -350,17 +342,7 @@ i {
     /* transition: opacity 500ms; */
      /* opacity: 0; */
 }
-/* .body-overlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.7);
-    transition: opacity 500ms;
-    visibility: hidden;
-    opacity: 0;
-} */
+
 .blockageModal {
     display: none;
     /* width: 400px; */

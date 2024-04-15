@@ -265,12 +265,21 @@ document.addEventListener("DOMContentLoaded", function () {
         breifChecked.style.display = "block";
         body.classList.add("body-overlay");
       });
+      var updateBtn = row.querySelector(".update");
+      var deleteBtn = row.querySelector(".delete");
+      updateBtn.style.pointerEvents = "none";
+      deleteBtn.style.pointerEvents = "none";
+      updateBtn = row.querySelector(".update i");
+      deleteBtn = row.querySelector(".delete i");
+      updateBtn.style.color = "gray";
+      deleteBtn.style.color = "gray";
       var closeBlBtn = breifChecked.querySelector(".close");
 
       closeBlBtn.addEventListener("click", function () {
         breifChecked.style.display = "none";
         body.classList.remove("body-overlay");
       });
+     
     }
     return row;
   }
