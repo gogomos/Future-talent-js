@@ -35,7 +35,11 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   var currentUser = JSON.parse(localStorage.getItem("currentUser"));
   var username = document.getElementById("name");
+  var studentName = document.querySelector(".student-name");
+  var sName = document.getElementById("sName");
   username.innerHTML = `<p>${currentUser.username}</p>`;
+  studentName.innerHTML = `<h3>${currentUser.username}</h3>`
+  sName.innerHTML = `<h3>${currentUser.username}</h3>`
 });
 document.addEventListener("DOMContentLoaded", function () {
   modal = document.getElementById("addModal");
@@ -44,19 +48,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var closeBtn = document.querySelector("#addModal .close");
   modalBtn.addEventListener("click", function () {
-    modal.style.display = "block";
-    body.classList.add("body-overlay");
+    modal.style.display = "flex";
+    // body.classList.add("body-overlay");
   });
 
   closeBtn.addEventListener("click", function () {
     modal.style.display = "none";
-    body.classList.remove("body-overlay");
+    // body.classList.remove("body-overlay");
   });
 
   window.addEventListener("click", function (event) {
-    if (event.target == body) {
+    if (event.target == modal) {
       modal.style.display = "none";
-      body.classList.remove("body-overlay");
+      // body.classList.remove("body-overlay");
     }
   });
 });
@@ -170,15 +174,18 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+
 document.addEventListener("DOMContentLoaded", function () {
   var body = document.querySelector("body");
   var table = document.getElementById("customers");
 
   // Function to handle delete button click
-  function handleDeleteClick(event) {
-    var deleteBtn = event.target.closest(".delete");
-    if (!deleteBtn) return; // If the click is not on a delete button, exit
-
+  function handleDeleteClick(deleteBtn) {
+    if (!deleteBtn || !deleteBtn.dataset || !deleteBtn.dataset.formId) {
+      console.error("Invalid delete button or missing dataset.");
+      return;
+    }
+    
     var formDataId = parseInt(deleteBtn.dataset.formId); // Get the ID from the dataset
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
     var savedUserData = JSON.parse(localStorage.getItem("savedUserData")) || [];
@@ -206,10 +213,39 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     console.error("User data or form data not found for the current user.");
   }
+  function displayDeleteConfirmationPopup(deleteBtn) {
+    var customModal = document.getElementById("customConfirmationModal");
+    customModal.style.display = "block";
+
+    var closeBtn = document.getElementById("customCloseBtn");
+    var cancelBtn = document.getElementById("customCancelDeleteBtn");
+    var confirmBtn = document.getElementById("customConfirmDeleteBtn");
+
+    // Event listener for close button
+    closeBtn.addEventListener("click", function () {
+      customModal.style.display = "none";
+    });
+
+    // Event listener for cancel button
+    cancelBtn.addEventListener("click", function () {
+      customModal.style.display = "none";
+    });
+
+    // Event listener for confirm button
+    confirmBtn.addEventListener("click", function () {
+      // Call the delete function when confirmed
+      handleDeleteClick(deleteBtn);
+      customModal.style.display = "none";
+    });
+  }
 
   // Attach delete button click event listener to each delete button
-  table.addEventListener("click", handleDeleteClick);
-
+  table.addEventListener("click", function (event) {
+    var deleteBtn = event.target.closest(".delete");
+    if (deleteBtn) {
+      displayDeleteConfirmationPopup(deleteBtn);
+    }
+  });
   // Function to display all data in the table
   function displayUserData() {
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -262,8 +298,9 @@ document.addEventListener("DOMContentLoaded", function () {
       breifChecked.querySelector("#bfContent").textContent = data.value;
       row.querySelector(".valid-btn").addEventListener("click", function () {
         // Display the briefChecked modal
-        breifChecked.style.display = "block";
-        body.classList.add("body-overlay");
+        var briefOverLay = document.getElementById("briefOverLay");
+        briefOverLay.style.display = "block";
+        // body.classList.add("body-overlay");
       });
       var updateBtn = row.querySelector(".update");
       var deleteBtn = row.querySelector(".delete");
@@ -274,10 +311,16 @@ document.addEventListener("DOMContentLoaded", function () {
       updateBtn.style.color = "gray";
       deleteBtn.style.color = "gray";
       var closeBlBtn = breifChecked.querySelector(".close");
+      var briefOverLay = document.getElementById("briefOverLay");
 
       closeBlBtn.addEventListener("click", function () {
-        breifChecked.style.display = "none";
-        body.classList.remove("body-overlay");
+        briefOverLay.style.display = "none";
+        // body.classList.remove("body-overlay");
+      });
+      window.addEventListener("click", function (event) {
+        if (event.target == briefOverLay) {
+          briefOverLay.style.display = "none";
+        }
       });
      
     }
@@ -293,7 +336,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var closeUpdateBtn = updateModal.querySelector(".close");
     closeUpdateBtn.addEventListener("click", function () {
       updateModal.style.display = "none";
-      body.classList.remove("body-overlay");
+      
+    });
+    window.addEventListener("click", function (event) {
+      if (event.target == updateModal) {
+        updateModal.style.display = "none";
+      }
     });
     var updateBtn = event.target.closest(".update");
     if (!updateBtn) return; // If the click is not on an update button, exit
@@ -320,9 +368,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Display the update modal
           var updateModal = document.getElementById("updateModal");
-          updateModal.style.display = "block";
-          body.classList.add("body-overlay");
-
+          updateModal.style.display = "flex";
           // Handle update form submission
           var updateForm = document.getElementById("updateForm");
           updateForm.addEventListener("submit", function (event) {
@@ -349,10 +395,11 @@ document.addEventListener("DOMContentLoaded", function () {
               JSON.stringify(savedUserData)
             );
             handleAddNewItem();
+            
 
             // Close the update modal
             updateModal.style.display = "none";
-            body.classList.remove("body-overlay");
+            // body.classList.remove("body-overlay");
           });
           return; // Exit the function if the form data is found and update modal displayed
         }
@@ -376,9 +423,16 @@ document.addEventListener("DOMContentLoaded", function () {
     var body = document.querySelector("body");
     var closeBlBtn = document.querySelector(".blockageModal .close");
     var blockageModal = document.querySelector(".blockageModal");
+    var blockageOverLay = document.getElementById("blockageOverLay");
     closeBlBtn.addEventListener("click", function () {
-      blockageModal.style.display = "none";
-      body.classList.remove("body-overlay");
+      blockageOverLay.style.display = "none";
+      // body.classList.remove("body-overlay");
+    });
+    window.addEventListener("click", function (event) {
+      if (event.target == blockageOverLay) {
+        blockageOverLay.style.display = "none";
+        // body.classList.remove("body-overlay");
+      }
     });
     if (currentUser && savedUserData.length > 0) {
       var userData = savedUserData.find(function (user) {
@@ -390,8 +444,8 @@ document.addEventListener("DOMContentLoaded", function () {
           return data.id === formDataId;
         });
         if (formData) {
-          blockageModal.style.display = "block";
-          body.classList.add("body-overlay");
+          blockageOverLay.style.display = "flex";
+          // body.classList.add("body-overlay");
           blockageModal.querySelector("#theBlockage").textContent =
             formData.difficulty;
           blockageModal.querySelector("#formateurName").textContent =

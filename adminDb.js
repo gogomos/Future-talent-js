@@ -91,8 +91,7 @@ setInterval(function() {
     var adminCheckModal = document.getElementById("adminCheck");
     var addCommentBtn = row.querySelector(".addComment");
     addCommentBtn.addEventListener("click", function () {
-      adminCheckModal.style.display = "block";
-      body.classList.add("body-overlay");
+      adminCheckModal.style.display = "flex";
       var studentName = adminCheckModal.querySelector(".modal-nav h3");
       studentName.textContent = user.username;
       userId = parseInt(this.dataset.userId);
@@ -112,7 +111,8 @@ setInterval(function() {
       user.formData.some((data) => data.id === formDataId)
     ); // Find the user data containing the form data with the clicked ID
     var blockageModal = document.querySelector(".blockageModal");
-    var body = document.querySelector("body");
+    var blockageOverLay = document.getElementById("blockageOverLay");
+    // var body = document.querySelector("body");
 
     if (userData) {
       var formData = userData.formData.find((data) => data.id === formDataId); // Find the form data with the clicked ID
@@ -127,8 +127,8 @@ setInterval(function() {
           formData.bootcamp;
         blockageModal.querySelector("#briefContent").textContent =
           formData.brief;
-        blockageModal.style.display = "block";
-        body.classList.add("body-overlay");
+          blockageOverLay.style.display = "flex";
+        // body.classList.add("body-overlay");
         return;
       }
     }
@@ -143,10 +143,18 @@ setInterval(function() {
   });
 
   var closeBlBtn = document.querySelector(".blockageModal .close");
+  var blockageOverLay = document.getElementById("blockageOverLay")
   closeBlBtn.addEventListener("click", function () {
-    var blockageModal = document.querySelector(".blockageModal");
-    blockageModal.style.display = "none";
-    body.classList.remove("body-overlay");
+    // var blockageModal = document.querySelector(".blockageModal");
+
+    blockageOverLay.style.display = "none";
+    // body.classList.remove("body-overlay");
+  });
+  window.addEventListener("click", function (event) {
+    if (event.target == blockageOverLay) {
+      blockageOverLay.style.display = "none";
+      // body.classList.remove("body-overlay");
+    }
   });
 
   // });
@@ -194,7 +202,7 @@ setInterval(function() {
       // Close admin check modal
       var adminCheckModal = document.getElementById("adminCheck");
       adminCheckModal.style.display = "none";
-      body.classList.remove("body-overlay");
+      // body.classList.remove("body-overlay");
       location.reload();
       // Optionally, you can update the table with the new data
     } else {
@@ -219,8 +227,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Open admin check modal
 
   adminCheckBtn.addEventListener("click", function () {
-    adminCheckModal.style.display = "block";
-    body.classList.add("body-overlay");
+    adminCheckModal.style.display = "flex";
+    // body.classList.add("body-overlay");
   });
 
   // Close admin check modal when close button is clicked

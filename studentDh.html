@@ -39,7 +39,7 @@
           <h1>A Fancy Table </h1>
           <table id="customers">
             <tr>
-              <th>Name</th>
+              <th>Formateur</th>
               <th>Date</th>
               <th>Difficulte</th>
               <th>Valid OR Not</th>
@@ -123,7 +123,7 @@
           <div class="modal-logo">
             <img src="images/logo.png" alt="">
           </div>
-          <div class="student-name">
+          <div class="student-name" id="sName">
             <h3>Oussama</h3>
           </div>
         </div>
@@ -148,41 +148,57 @@
         <!-- Your form elements for adding information go here -->
       </div>
     </div>
-
-    <div class="blockageModal">
-      <button id="close-bg" class="close">&times;</button>
-      <div class="allInfo">
-        <div class="informatinBg">
-          <div class="infBg">
-            <h2>Formateur:</h2>
-            <p id="formateurName" class="bgTitle"></p>
+    <div id="blockageOverLay">
+      <div class="blockageModal">
+        <button id="close-bg" class="close">&times;</button>
+        <div class="allInfo">
+          <div class="informatinBg">
+            <div class="infBg">
+              <h2>Formateur:</h2>
+              <p id="formateurName" class="bgTitle"></p>
+            </div>
+            <div class="infBg">
+              <h2>Title: </h2>
+              <p id="blockageTitle" class="bgTitle"></p>
+            </div>
+            <div class="infBg">
+              <h2>Bootcamp: </h2>
+              <p id="bootcampType" class="bgTitle"></p>
+            </div>
+            <div class="infBg">
+              <h2>Brief: </h2>
+              <p id="briefContent" class="bgTitle"></p>
+            </div>
+    
           </div>
-          <div class="infBg">
-            <h2>Title: </h2>
-            <p id="blockageTitle" class="bgTitle"></p>
+          <div class="bgContent">
+            <h2>Blockage:</h2>
+            <p id="theBlockage"></p>
           </div>
-          <div class="infBg">
-            <h2>Bootcamp: </h2>
-            <p id="bootcampType" class="bgTitle"></p>
-          </div>
-          <div class="infBg">
-            <h2>Brief: </h2>
-            <p id="briefContent" class="bgTitle"></p>
-          </div>
-  
-        </div>
-        <div class="bgContent">
-          <h2>Blockage:</h2>
-          <p id="theBlockage"></p>
         </div>
       </div>
-    </div>
-    <div id="breifChecked">
-      <button id="close-bg" class="close">&times;</button>
 
-      <h2 id="bfTitle">The Title</h2>
-      <p id="bfContent">eefeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</p>
     </div>
+    <div id="briefOverLay">
+      <div id="breifChecked">
+        <button id="close-bg" class="close">&times;</button>
+  
+        <h2 id="bfTitle">The Title</h2>
+        <p id="bfContent">eefeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</p>
+      </div>
+
+    </div>
+    <div id="customConfirmationModal" class="custom-modal">
+      <div class="custom-modal-content">
+          <span id="customCloseBtn" class="custom-close">&times;</span>
+          <p>Are you sure you want to delete this item?</p>
+          <div class="custom-btn-container">
+              <button id="customConfirmDeleteBtn">Yes</button>
+              <button id="customCancelDeleteBtn">Cancel</button>
+          </div>
+      </div>
+  </div>
+  
     <script src="dashboard.js"></script>
   </body>
 </html>
