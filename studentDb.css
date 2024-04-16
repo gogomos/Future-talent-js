@@ -82,6 +82,11 @@ nav .nav-elements .list ul .log-out img {
     gap: 20px;
     /* margin-top: 8px; */
   }
+  nav {
+    background-color: #624de3;
+    max-height: 100px;
+    width: 100vw;
+  }
 
   nav .nav-elements .list ul {
     flex-direction: column;
@@ -215,20 +220,23 @@ i {
   #customers {
     font-size: 14px; /* Reduce font size */
   }
+  #customers td {
+    padding: 0px;
+  }
   .delete {
     margin-left: 8px;
   }
   i {
-    font-size: 16px;
+    font-size: 14px;
   }
   .addModal-btn {
-    width: 150px; /* Adjust button width */
-    height: 45px; /* Adjust button height */
+    width: 120px; /* Adjust button width */
+    height: 38px; /* Adjust button height */
     margin-top: 20px; /* Reduce top margin */
   }
 
   .addModal-btn p {
-    font-size: 12px; /* Reduce button text size */
+    font-size: 8px; /* Reduce button text size */
   }
 
   .icon-btn {
@@ -521,7 +529,7 @@ i {
 #breifChecked p {
   /* padding-left: 10px; */
   font-weight: 600;
-  font-size: 24px;
+  font-size: 18px;
   /* padding-bottom: 18px; */
   color: rgba(74, 74, 75, 0.879);
   margin-top: -8px;
@@ -596,6 +604,7 @@ i {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+
 }
 
 .custom-modal-content {

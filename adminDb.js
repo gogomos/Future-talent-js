@@ -234,14 +234,19 @@ document.addEventListener("DOMContentLoaded", function () {
   // Close admin check modal when close button is clicked
   closeAdminCheckBtn.addEventListener("click", function () {
     adminCheckModal.style.display = "none";
-    body.classList.remove("body-overlay");
+    document.getElementById("encadreTextarea").value = "";
+    document.getElementById("aideTextarea").value = "";
+    document.getElementById("interventionTextarea").value = "";
+    // body.classList.remove("body-overlay");
   });
 
   // Close admin check modal when clicking outside the modal
   window.addEventListener("click", function (event) {
     if (event.target == adminCheckModal) {
       adminCheckModal.style.display = "none";
-      body.classList.remove("body-overlay");
+      document.getElementById("encadreTextarea").value = "";
+    document.getElementById("aideTextarea").value = "";
+    document.getElementById("interventionTextarea").value = "";
     }
   });
 
@@ -251,6 +256,8 @@ document.addEventListener("DOMContentLoaded", function () {
       encadreTextarea.style.display = "block";
       aideTextarea.style.display = "none";
       interventionTextarea.style.display = "none";
+      document.getElementById("aideTextarea").value = "";
+      document.getElementById("interventionTextarea").value = "";
     }
   });
 
@@ -259,6 +266,8 @@ document.addEventListener("DOMContentLoaded", function () {
       encadreTextarea.style.display = "none";
       aideTextarea.style.display = "block";
       interventionTextarea.style.display = "none";
+      document.getElementById("interventionTextarea").value = "";
+      document.getElementById("encadreTextarea").value = "";
     }
   });
 
@@ -267,6 +276,8 @@ document.addEventListener("DOMContentLoaded", function () {
       encadreTextarea.style.display = "none";
       aideTextarea.style.display = "none";
       interventionTextarea.style.display = "block";
+      document.getElementById("encadreTextarea").value = "";
+      document.getElementById("aideTextarea").value = "";
     }
   });
 });

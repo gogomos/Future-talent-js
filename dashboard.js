@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var sName = document.getElementById("sName");
   username.innerHTML = `<p>${currentUser.username}</p>`;
   studentName.innerHTML = `<h3>${currentUser.username}</h3>`
-  sName.innerHTML = `<h3>${currentUser.username}</h3>`
+  studentName.innerHTML = `<h3>${currentUser.username}</h3>`
 });
 document.addEventListener("DOMContentLoaded", function () {
   modal = document.getElementById("addModal");
@@ -54,12 +54,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   closeBtn.addEventListener("click", function () {
     modal.style.display = "none";
+    document.getElementById("title").value = "";
+    document.getElementById("brief").value = "";
+    document.getElementById("notes").value = "";
     // body.classList.remove("body-overlay");
   });
 
   window.addEventListener("click", function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
+      document.getElementById("title").value = "";
+    document.getElementById("brief").value = "";
+    document.getElementById("notes").value = "";
       // body.classList.remove("body-overlay");
     }
   });
