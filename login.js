@@ -1,4 +1,18 @@
+document.addEventListener("DOMContentLoaded", function () {
+  var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+//dont forget to handel the admin...
+  if (!currentUser) {
+  } else {
+    if (currentUser.role === "admin") {
+      window.location.href = "adminDh.html";
+    } else if (currentUser.role === "student") {
+      window.location.href = "studentDh.html";
+    }
+  }
+});
+
 var loginForm = document.getElementById("loginForm");
+
 if (loginForm) {
   document
     .getElementById("loginForm")

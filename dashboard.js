@@ -24,7 +24,15 @@ document.addEventListener("DOMContentLoaded", function () {
   var savedUserData = JSON.parse(localStorage.getItem("savedUserData"));
   // console.log(savedUserData.formData);
   var currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
+  
+  // if (!currentUser) {
+  // } else {
+  //   if (currentUser.role === "admin") {
+  //     window.location.href = "adminDh.html";
+  //   } else if (currentUser.role === "student") {
+  //     window.location.href = "studentDh.html";
+  //   }
+  // }
   if (!currentUser || !currentUser.username) {
     alert("Invalid User Please Login!");
     window.location.href = "login.html";
@@ -39,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var sName = document.getElementById("sName");
   username.innerHTML = `<p>${currentUser.username}</p>`;
   studentName.innerHTML = `<h3>${currentUser.username}</h3>`
-  studentName.innerHTML = `<h3>${currentUser.username}</h3>`
+  sName.innerHTML = `<h3>${currentUser.username}</h3>`
 });
 document.addEventListener("DOMContentLoaded", function () {
   modal = document.getElementById("addModal");
